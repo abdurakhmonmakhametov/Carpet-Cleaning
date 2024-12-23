@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url('./assets/fonts/Gilroy-Bold.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-Bold.woff') format('woff'),
+       url('./assets/fonts/Gilroy-Bold.ttf') format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Semibold';
+  src: url('./assets/fonts/Gilroy-Semibold.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-Semibold.woff') format('woff'),
+       url('./assets/fonts/Gilroy-Semibold.ttf') format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Medium';
+  src: url('./assets/fonts/Gilroy-Medium.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-Medium.woff') format('woff'),
+       url('./assets/fonts/Gilroy-Medium.ttf') format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: url('./assets/fonts/Gilroy-Regular.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-Regular.woff') format('woff'),
+       url('./assets/fonts/Gilroy-Regular.ttf') format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+.error-animation{
+  position: fixed;
+  animation: animateError 0.3s ease-in-out;
+}
+
+@keyframes animateError {
+  0% {
+    transform: translateX(100%);
+  }
+  25% {
+    transform: translateX(-0.5rem);
+  }
+  50% {
+    transform: translateX(0.5rem);
+  }
+  75% {
+    transform: translateX(-0.5rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animateUserBar{
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 432px) {
+  .addEmployeeBtn{
+    width: 100%;
+    margin-top: 12px;
+  }
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
