@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { signUserStart, signUserSuccess, signUserFail } from "../slice/auth"
-import AuthService from "../services/auth"
-import {passwordIcon, loginIcon, loginBtn, LightInIcon, DarkInIcon } from "../assets/images"
-import { styles } from "../util/style"
-import './styles/login.css'
-import ErrorAlert from "./errorAlert"
+import { signUserStart, signUserSuccess, signUserFail } from "../../slice/auth"
+import AuthService from "../../services/auth"
+import { LoginBtnIcon, LightInIcon, DarkInIcon, PasswordIcon, LoginIcon } from "../../assets/images"
+import { styles } from "../../util/style"
+import '../styles/login.css'
+import { ErrorAlert } from "../"
 
 const Login = ({darkMode, isDark}) => {
   const [username, setUsername] = useState("")
@@ -99,11 +99,7 @@ const Login = ({darkMode, isDark}) => {
 					>
 						Login
 					</label>
-					<img
-						src={loginIcon}
-						className='loginIcon'
-						alt='loginIcon'
-					/>
+					<LoginIcon className='loginIcon text-[#6B7280]'/>
 				</div>
 
 				<div className='relative'>
@@ -141,11 +137,7 @@ const Login = ({darkMode, isDark}) => {
 					>
 						Parol
 					</label>
-					<img
-						src={passwordIcon}
-						className='loginIcon'
-						alt='passwordIcon'
-					/>
+					<PasswordIcon className='loginIcon text-[#6B7280]'/>
 				</div>
 				<button
 					type='submit'
@@ -153,10 +145,10 @@ const Login = ({darkMode, isDark}) => {
 					className='text-white rounded text-[18px] dark:bg-dark-primary bg-light-primary flex items-center justify-center gap-[10px] hover:bg-primaryHover loginBtn'
 				>
 					Kirish
-					<img src={loginBtn} alt='Kirish' />
+					<LoginBtnIcon />
 				</button>
 			</form>
-			{error && <ErrorAlert errorDisplayer={errorDisplayer} setPasswordError={setPasswordError} setUsernameError={setUsernameError}/>}
+			{error && <ErrorAlert errorDisplayer={errorDisplayer} setPasswordError={setPasswordError} setUsernameError={setUsernameError} errorType={'auth'}/>}
 			<div className='absolute top-0 right-0 z-10 p-4'>
 				<button onClick={darkMode}>
 					{isDark ? (

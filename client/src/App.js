@@ -27,19 +27,16 @@ const App = () => {
 
   const getUser = async () => {
 		try {
-			const res = await AuthService.getUser()
+			const res = await AuthService.getCurrentUser()
 			dispatch(signUserSuccess(res.user))
-      console.log(res.response.data);
-      
 		} catch (err) {
-			console.log(err);		
+			console.log(err);
 		}
 	}
 
 
   useEffect(() => {
 		const bearer = getItem('bearer')
-    console.log(bearer);
 		if (bearer) getUser()
 	}, [])
 

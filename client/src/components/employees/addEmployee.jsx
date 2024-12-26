@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { AddIcon, CencelIcon } from '../assets/images';
+import { AddIcon, CencalIcon } from '../../assets/images';
 import { useDispatch } from 'react-redux';
 import {
 	createUserFail,
 	createUserStart,
 	createUserSuccess,
-} from '../slice/allUsers';
-import UsersService from '../services/users';
+} from '../../slice/allUsers';
+import UsersService from '../../services/users';
 import { useNavigate } from 'react-router-dom';
 
 const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
-	const [role, setRole] = useState('ADMIN');
+	const [role, setRole] = useState('');
 	const [name, setName] = useState('');
 	const [surname, setSurname] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
@@ -18,8 +18,6 @@ const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	console.log(role, name, surname, phoneNumber, login, password);
 
 	const addEmployeeHandler = async (e) => {
 		e.preventDefault();
@@ -81,6 +79,7 @@ const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
 							dark:text-dark-textColor 
      						text-light-textColor'
 						>
+							<option value=''></option>
 							<option value='ADMIN'>Admin</option>
 							<option value='MANAGER'>Meneger</option>
 							<option value='OPERATOR'>Operator</option>
@@ -236,7 +235,7 @@ const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
 							onClick={() => setAddEmployeeEditor(false)}
 							className='rounded h-[50px] flex items-center justify-center gap-2 font-gilroy font-normal text-[16px] bg-light-primary dark:bg-dark-primary text-dark-textColor px-4'
 						>
-							<CencelIcon />
+							<CencalIcon />
 							<p>Bekor qilish</p>
 						</button>
 						<button

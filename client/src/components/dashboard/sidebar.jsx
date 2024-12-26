@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { AddUser, SettingIcon } from "../assets/images";
+import { AddUserIcon, SettingIcon } from "../../assets/images";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ isOpen, isMobile}) => {
@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen, isMobile}) => {
         <div>
           <Link to={'/add-employee'}>
             <button className={`mb-2 h-[50px] w-full flex items-center gap-5 ${isOpen ? "pl-3" : "pl-0 justify-center"} text-dark-textColor sm:hover:bg-gray-500 sm:hover:dark:bg-dark-background rounded ${location.pathname === '/add-employee' ? 'bg-light-primary dark:bg-dark-textColor dark:text-light-textColor' : ''}`}>
-              <AddUser />
+              <AddUserIcon />
               {isOpen && <p>Hodim qo'shish</p>}
             </button>
           </Link>

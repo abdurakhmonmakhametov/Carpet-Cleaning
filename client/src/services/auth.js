@@ -6,7 +6,7 @@ const AuthService = {
         return res; 
     },
 
-    getUser: async() => {
+    getCurrentUser: async() => {
         const {data} = await axios.get('/employees/current_employee');        
         return data
     }

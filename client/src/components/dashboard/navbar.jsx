@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { closeIcon, menuIcon, userIcon } from '../assets/images';
-import { UserBar } from './';
+import { CloseIcon, MenuIcon, UserIcon } from '../../assets/images';
+import { UserBar } from '../';
 
 const Navbar = ({ isOpen, sideBarHandler, isDark, darkMode }) => {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -17,7 +17,7 @@ const Navbar = ({ isOpen, sideBarHandler, isDark, darkMode }) => {
           aria-expanded={isOpen}
           aria-label={isOpen ? 'Close Sidebar' : 'Open Sidebar'}
         >
-          <img src={isOpen ? closeIcon : menuIcon} alt="menuIcon" />
+          {isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
         <p className="ml-2 text-2xl font-semibold font-bold dark:text-dark-textColor text-light-textColor font-gilroy Gilroy-Semibold">
           Dashboard
@@ -28,7 +28,7 @@ const Navbar = ({ isOpen, sideBarHandler, isDark, darkMode }) => {
         aria-expanded={isSettingsOpen}
         aria-label="Open User Settings"
       >
-        <img src={userIcon} alt="User Settings" />
+        <UserIcon />
       </button>
       {isSettingsOpen && (
         <div onClick={userSettingsHandler} className="absolute top-0 left-0 w-full h-screen bg-black opacity-30"></div>

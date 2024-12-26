@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Outlet, Route, Routes, useNavigate } from 'react-router-dom'
-import { getUserFail, getUserStart, getUserSuccess } from '../slice/auth'
-import AuthService from '../services/auth'
-import { AddEmployee, Navbar, Settings } from './'
-import { Sidebar } from './'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { getUserFail, getUserStart, getUserSuccess } from '../../slice/auth'
+import AuthService from '../../services/auth'
+import { Navbar } from '..'
+import { Sidebar } from '..'
 
 const Dashboard = ({darkMode, isDark}) => {
   const {loggedIn} = useSelector(state => state.auth)
@@ -27,20 +27,17 @@ const Dashboard = ({darkMode, isDark}) => {
     };
   }, []);
 
-  console.log(isMobile);
-
   const sideBarHandler = () => setIsOpen((prev) => !prev);
 
-  const userEnter = async() => {
-    dispatch(getUserStart())
-    try {
-      const res = await AuthService.getUser()
-      console.log(res);
-      dispatch(getUserSuccess(res))
-    } catch (err) {
-      dispatch(getUserFail(err.response.data.message))
-    }
-  }
+  const userEnter = async () => {
+		dispatch(getUserStart());
+		try {
+			const res = await AuthService.getCurrentUser();
+			dispatch(getUserSuccess(res));
+		} catch (err) {
+			dispatch(getUserFail(err.response.data.message));
+		}
+  };
 
   useEffect(() => {
     if(loggedIn) {
@@ -62,7 +59,7 @@ const Dashboard = ({darkMode, isDark}) => {
 				darkMode={darkMode}
 				isDark={isDark}
 			/>
-			<div className='flex mt-[65px] relative'>
+			<div className='min-h-screen flex mt-[65px] relative'>
 				<Sidebar isOpen={isOpen} isMobile={isMobile}/>
 				<div className='w-full h-full p-5 font-normal text-light-textColor dark:text-dark-textColor font-gilroy'>
 					<Outlet />

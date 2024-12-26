@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { errorIcon } from '../assets/images';
+import { ErrorIcon } from '../../assets/images';
 import { useSelector } from 'react-redux';
 
-const ErrorAlert = ({ timeout = 5000, errorDisplayer, setPasswordError, setUsernameError }) => {
+const ErrorAlert = ({ timeout = 5000, errorDisplayer = null, setPasswordError, setUsernameError, errorType }) => {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const { error } = useSelector((state) => state.auth);
+  const error = useSelector((state) => state[errorType].error);
 
   useEffect(() => {
-    errorDisplayer();
+    if (errorDisplayer) {
+      errorDisplayer();
+    }
     if (error) {
       setProgress(0);
       setIsLoading(true);
@@ -23,8 +25,10 @@ const ErrorAlert = ({ timeout = 5000, errorDisplayer, setPasswordError, setUsern
 
       const hideLoading = setTimeout(() => {
         setIsLoading(false);
-        setPasswordError(false);
-        setUsernameError(false);
+        if (errorDisplayer) {
+          setPasswordError(false);
+          setUsernameError(false); 
+        }
         clearInterval(progressInt);
       }, timeout);
 
@@ -41,19 +45,12 @@ const ErrorAlert = ({ timeout = 5000, errorDisplayer, setPasswordError, setUsern
         <div className="absolute top-0 right-0 z-50 p-4 error-animation">
           <div className="p-4 text-white rounded bg-[#fef2f2] flex relative overflow-hidden">
             <div>
-              <img
-                src={errorIcon}
-                alt="error"
-                className="mr-3"
-                width="24px"
-                height="24px"
-                onClick={() => setIsLoading(false)}
-              />
+              <ErrorIcon className="mr-3"/>
             </div>
             <div>
-              <h3 className="text-[#a40c12] font-gilroy font-bold">{error.message}</h3>
+              <h3 className="text-[#a40c12] font-gilroy font-bold">{error?.message}</h3>
               <ul className="text-[#d13019] font-gilroy list-inside list-disc">
-                {Object.keys(error.details).map((key, index) => (
+                {Object.keys(error?.details).map((key, index) => (
                   <li key={index}>
                     {error.details[key]}
                   </li>
