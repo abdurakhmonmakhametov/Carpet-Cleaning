@@ -38,6 +38,17 @@ const Sidebar = ({ isOpen, isMobile}) => {
           </Link>
         </div>
       )}
+
+      {
+        role === 'OPERATOR' && (
+          <Link to={'/add-customer'}>
+            <button className={`mb-2 h-[50px] w-full flex items-center gap-5 ${isOpen ? "pl-3" : "pl-0 justify-center"} text-dark-textColor sm:hover:bg-gray-500 sm:hover:dark:bg-dark-background rounded ${location.pathname === '/add-customer' ? 'bg-light-primary dark:bg-dark-textColor dark:text-light-textColor' : ''}`}>
+              <AddUserIcon />
+              {isOpen && <p>Mijoz qo'shish</p>}
+            </button>
+          </Link>
+        )
+      }
     </div>
       <div
       className={`${isOpen ? 'w-[250px]' : 'md:w-[70px] w-0'} 

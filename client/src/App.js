@@ -1,5 +1,5 @@
 import {Routes, Route} from 'react-router-dom'
-import { Dashboard, Employee, Login, Settings } from './components/'
+import { Customers, Dashboard, Employee, Login, Settings } from './components/'
 import { useEffect, useState } from 'react'
 import { getItem } from './helpers/persistance-storage'
 import AuthService from './services/auth'
@@ -50,6 +50,7 @@ const App = () => {
           >
             <Route path="settings" element={<Settings />} />
             <Route path="add-employee" element={<Employee />} />
+            <Route path="add-customer" element={<Customers />} />
           </Route>
           <Route path="/login" element={<Login darkMode={darkMode} isDark={isDark} />} />
         </Routes>

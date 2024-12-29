@@ -7,6 +7,7 @@ const UsersService = {
     },
     createUser: async(user) => {  
         const res = await axios.post('/employees/create_employee', user);
+        console.log(user);
         return res; 
     },
     deleteUser: async(id) => {   

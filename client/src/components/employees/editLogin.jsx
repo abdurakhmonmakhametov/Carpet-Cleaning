@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { AddIcon, CencalIcon } from '../../assets/images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UsersService from '../../services/users';
+import { signUserSuccess } from '../../slice/auth';
 
 const EditLogin = ({ editLogin, setEditLogin, refreshUsers = null, isOpen = false }) => {
   const { editUserData } = useSelector(state => state.users)
   const [id, setId] = useState(editUserData?.id);
   const [newLogin, setNewLogin] = useState(editUserData?.username);
+  const dispatch = useDispatch()
 
   useEffect(() => {
       setNewLogin(editUserData?.username);
@@ -16,6 +18,7 @@ const EditLogin = ({ editLogin, setEditLogin, refreshUsers = null, isOpen = fals
   const updateLogin = async () => {
     try {
       const res = await UsersService.updateUsername(id, newLogin);
+	  dispatch(signUserSuccess(res.data))
       if (refreshUsers) refreshUsers();
       setEditLogin(false);
     } catch (err) {

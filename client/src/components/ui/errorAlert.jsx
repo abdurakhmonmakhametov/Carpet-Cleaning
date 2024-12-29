@@ -51,9 +51,11 @@ const ErrorAlert = ({ timeout = 5000, errorDisplayer = null, setPasswordError, s
               <h3 className="text-[#a40c12] font-gilroy font-bold">{error?.message}</h3>
               <ul className="text-[#d13019] font-gilroy list-inside list-disc">
                 {Object.keys(error?.details).map((key, index) => (
-                  <li key={index}>
-                    {error.details[key]}
-                  </li>
+                  key !== 'uri' && (
+                    <li key={index}>
+                      {error.details[key]}
+                    </li>
+                  )
                 ))}
               </ul>
             </div>

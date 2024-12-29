@@ -5,12 +5,12 @@ import UsersService from "../../services/users";
 
 const EditRole = ({ editRole, setEditRole, refreshUsers }) => {
   const { editUserData } = useSelector(state => state.users)
-  const [id, setId] = useState(editUserData.id);
+  const [id, setId] = useState(editUserData?.id);
   const [newRole, setNewRole] = useState(editUserData?.role?.role);
 
   useEffect(() => {
       setNewRole(editUserData?.role?.role);
-      setId(editUserData.id);
+      setId(editUserData?.id);
     }, [editRole])
 
   const updateRole = async () => {
