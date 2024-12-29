@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AddIcon, CencalIcon } from '../../assets/images';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	createUserFail,
 	createUserStart,
@@ -8,6 +8,7 @@ import {
 } from '../../slice/allUsers';
 import UsersService from '../../services/users';
 import { useNavigate } from 'react-router-dom';
+import ErrorAlert from '../ui/errorAlert';
 
 const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
 	const [role, setRole] = useState('');
@@ -18,6 +19,7 @@ const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
 	const [password, setPassword] = useState('');
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const{ error } = useSelector(state => state.users);
 
 	const addEmployeeHandler = async (e) => {
 		e.preventDefault();
@@ -248,6 +250,7 @@ const AddEmployee = ({ addEmployeeEditor, setAddEmployeeEditor }) => {
 				</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'users'}/>}
 		</div>
 	);
 };

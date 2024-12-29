@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { AddIcon, CencalIcon } from '../../assets/images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomersService from '../../services/customers';
+import { editCustomersFail } from '../../slice/customers';
 
 const EditType = ({ editType, setEditType, refreshCustomers }) => {
 	const [newType, setNewType] = useState('');
   const [id, setId] = useState('');
   const { editCustomerData } = useSelector(state => state.customers);
+  const dispatch = useDispatch()
 
   const updateType = async() => {
     try {
@@ -14,7 +16,7 @@ const EditType = ({ editType, setEditType, refreshCustomers }) => {
       if (refreshCustomers) refreshCustomers();
       setEditType(false);
     } catch (err) {
-      console.log(err);
+		dispatch(editCustomersFail(err.response.data));
     }
   };
   

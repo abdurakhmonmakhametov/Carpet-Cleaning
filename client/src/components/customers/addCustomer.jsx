@@ -6,7 +6,7 @@ import { getCustomersFail, getCustomersStart, getCustomerSuccess } from '../../s
 import AddNewCustomer from './addNewCustomer';
 import ErrorAlert from '../ui/errorAlert';
 
-const AddCustomers = ({ addCustomerEditor, setAddCustomerEditor, setEditCustomerDataOpen }) => {
+const AddCustomers = ({ addCustomerEditor, setAddCustomerEditor, setEditCustomerDataOpen, refreshCustomers }) => {
     const [customerPhoneNumber, setCustomerPhoneNumber] = useState('');
     const dispatch = useDispatch();
     const [isExists, setIsExists] = useState(true);
@@ -86,7 +86,7 @@ const AddCustomers = ({ addCustomerEditor, setAddCustomerEditor, setEditCustomer
 					</div>
 				</div>
 			</div>
-			<AddNewCustomer isExists={isExists} setIsExists={setIsExists} customerPhoneNumber={customerPhoneNumber} setEditCustomerDataOpen={setEditCustomerDataOpen} setAddCustomerEditor={setAddCustomerEditor}/>
+			<AddNewCustomer isExists={isExists} setIsExists={setIsExists} customerPhoneNumber={customerPhoneNumber} setEditCustomerDataOpen={setEditCustomerDataOpen} setAddCustomerEditor={setAddCustomerEditor} refreshCustomers={refreshCustomers}/>
             {error && <ErrorAlert errorType={'customers'}/>}
 		</div>
 	);

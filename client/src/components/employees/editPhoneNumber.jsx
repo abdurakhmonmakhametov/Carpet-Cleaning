@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { AddIcon, CencalIcon } from '../../assets/images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import UsersService from '../../services/users';
+import { ErrorAlert } from '../';
+import { editUserFail } from '../../slice/allUsers';
 
 const EditPhoneNumber = ({
 	editPhoneNumber,
@@ -12,6 +14,8 @@ const EditPhoneNumber = ({
   const { editUserData } = useSelector(state => state.users)
   const [id, setId] = useState(editUserData?.id);
   const [newPhoneNumber, setNewPhoneNumber] = useState(editUserData?.phoneNumber);
+  const { error } = useSelector(state => state.users);
+  const dispatch = useDispatch();
 
   useEffect(() => {
       setNewPhoneNumber(editUserData?.phoneNumber);
@@ -24,7 +28,7 @@ const EditPhoneNumber = ({
       if (refreshUsers) refreshUsers();
       setEditPhoneNumber(false);
     } catch (err) {
-      console.log(err);
+		dispatch(editUserFail(err.response.data));
     }
   }
 
@@ -35,7 +39,7 @@ const EditPhoneNumber = ({
 				editPhoneNumber ? 'fixed' : 'hidden'
 			} inset-0 z-[110] bg-black bg-opacity-50 flex items-center justify-center`}
 		>
-			<div className={`relative ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[300px]' : ''} transform w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px]`}>
+			<div className={`relative ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[300px]' : ''} transform w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px] text-light-texxColor dark:text-dark-textColor`}>
 				<div className='flex items-center justify-between'>
 					<h3 className='font-normal font-gilroy'>
 						Telefon raqamni ozgartirish
@@ -86,6 +90,7 @@ const EditPhoneNumber = ({
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'users'}/>}
 		</div>
 	);
 };

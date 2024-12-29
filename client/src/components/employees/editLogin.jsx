@@ -3,12 +3,16 @@ import { AddIcon, CencalIcon } from '../../assets/images';
 import { useDispatch, useSelector } from 'react-redux';
 import UsersService from '../../services/users';
 import { signUserSuccess } from '../../slice/auth';
+import { ErrorAlert } from '../';
+import { editUserFail } from '../../slice/allUsers';
 
 const EditLogin = ({ editLogin, setEditLogin, refreshUsers = null, isOpen = false }) => {
   const { editUserData } = useSelector(state => state.users)
+  const { user } = useSelector(state => state.auth)
   const [id, setId] = useState(editUserData?.id);
   const [newLogin, setNewLogin] = useState(editUserData?.username);
   const dispatch = useDispatch()
+  const { error } = useSelector(state => state.users);
 
   useEffect(() => {
       setNewLogin(editUserData?.username);
@@ -18,11 +22,11 @@ const EditLogin = ({ editLogin, setEditLogin, refreshUsers = null, isOpen = fals
   const updateLogin = async () => {
     try {
       const res = await UsersService.updateUsername(id, newLogin);
-	  dispatch(signUserSuccess(res.data))
+	  if(editUserData?.id === user?.id) dispatch(signUserSuccess(res.data))
       if (refreshUsers) refreshUsers();
       setEditLogin(false);
     } catch (err) {
-      console.log(err);
+		dispatch(editUserFail(err.response.data));
     }
   }
   
@@ -32,7 +36,7 @@ const EditLogin = ({ editLogin, setEditLogin, refreshUsers = null, isOpen = fals
 				editLogin ? 'fixed' : 'hidden'
 			} inset-0 z-[110] bg-black bg-opacity-50 flex items-center justify-center`}
 		>
-			<div className={`relative transform ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[300px]' : ''} w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px]`}>
+			<div className={`relative transform ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[300px]' : ''} w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px] text-light-texxColor dark:text-dark-textColor`}>
 				<div className='flex items-center justify-between'>
 					<h3 className='font-normal font-gilroy'>
 						Loginni ozgartirish
@@ -83,6 +87,7 @@ const EditLogin = ({ editLogin, setEditLogin, refreshUsers = null, isOpen = fals
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'users'}/>}
 		</div>
 	);
 };

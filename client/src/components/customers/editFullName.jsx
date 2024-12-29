@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { AddIcon, CencalIcon } from "../../assets/images"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomersService from "../../services/customers";
+import { editCustomersFail } from "../../slice/customers";
+import ErrorAlert from "../ui/errorAlert";
 
 const EditFullName = ({editFullName, setEditFullName, refreshCustomers}) => {
   const [newName, setNewName] = useState('');
   const [newSurname, setNewSurname] = useState('');
   const [id, setId] = useState('');
   const { editCustomerData } = useSelector(state => state.customers);
+  const { error } = useSelector(state => state.customers);
+  const dispatch = useDispatch()
 
   const updateFullName = async () => {
     try {
@@ -15,7 +19,7 @@ const EditFullName = ({editFullName, setEditFullName, refreshCustomers}) => {
         if (refreshCustomers) refreshCustomers();
         setEditFullName(false);
     } catch (err) {
-        console.log(err);
+      dispatch(editCustomersFail(err.response.data));
     }
 }
 
@@ -108,6 +112,7 @@ const EditFullName = ({editFullName, setEditFullName, refreshCustomers}) => {
               </div>
             </div>
           </div>
+          {error && <ErrorAlert errorType={'customers'}/>}
         </div>
   )
 }

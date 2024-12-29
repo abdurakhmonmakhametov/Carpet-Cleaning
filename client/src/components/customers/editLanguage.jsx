@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { AddIcon, CencalIcon } from '../../assets/images';
 import CustomersService from '../../services/customers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { editCustomersFail } from '../../slice/customers';
+import ErrorAlert from '../ui/errorAlert';
 
 const EditLanguage = ({ editLanguage, setEditLanguage, refreshCustomers }) => {
 	const [newLanguage, setNewLangauge] = useState('');
   const [id, setId] = useState('');
   const { editCustomerData } = useSelector(state => state.customers);
+  const { error } = useSelector(state => state.customers);
+  const dispatch = useDispatch()
 
   const updateLanguage = async() => {
     try {
@@ -14,7 +18,7 @@ const EditLanguage = ({ editLanguage, setEditLanguage, refreshCustomers }) => {
       if (refreshCustomers) refreshCustomers();
       setEditLanguage(false);
     } catch (err) {
-      console.log(err);
+		dispatch(editCustomersFail(err.response.data));
     }
   };
 
@@ -87,6 +91,7 @@ const EditLanguage = ({ editLanguage, setEditLanguage, refreshCustomers }) => {
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'customers'}/>}
 		</div>
 	);
 };

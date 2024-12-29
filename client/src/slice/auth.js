@@ -39,6 +39,8 @@ export const authSlice = createSlice({
         getUserFail: (state, actions) => {
             state.isLoading = false
             state.error = actions.payload
+            removeItem('bearer')
+            state.loggedIn = false
         }
     }
 })

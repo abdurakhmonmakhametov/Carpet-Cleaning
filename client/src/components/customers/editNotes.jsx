@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { AddIcon, CencalIcon } from '../../assets/images'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomersService from '../../services/customers';
+import { editCustomersFail } from '../../slice/customers';
+import ErrorAlert from '../ui/errorAlert';
 
 const EditNotes = ({editNotes, setEditNotes, refreshCustomers}) => {
   const [newNotes, setNewNotes] = useState('');
   const [id, setId] = useState('');
   const { editCustomerData } = useSelector(state => state.customers);
+  const { error } = useSelector(state => state.customers);
+  const dispatch = useDispatch()
   
   const updateNotes = async() => {
     try {
@@ -14,7 +18,7 @@ const EditNotes = ({editNotes, setEditNotes, refreshCustomers}) => {
       if (refreshCustomers) refreshCustomers();
       setEditNotes(false);
     } catch (err) {
-      console.log(err);
+      dispatch(editCustomersFail(err.response.data));
     }
   };
   
@@ -80,6 +84,7 @@ const EditNotes = ({editNotes, setEditNotes, refreshCustomers}) => {
               </div>
             </div>
           </div>
+          {error && <ErrorAlert errorType={'customers'}/>}
         </div>
   )
 }

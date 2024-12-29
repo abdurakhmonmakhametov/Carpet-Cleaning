@@ -50,9 +50,9 @@ export const usersSlice = createSlice({
         // editUserSuccess: (state, actions) => {
         //     state.success = actions.payload
         // },
-        // editUserFail: (state, actions) => {
-        //     state.error = actions.payload
-        // }
+        editUserFail: (state, actions) => {
+            state.error = actions.payload
+        }
 	},
 });
 

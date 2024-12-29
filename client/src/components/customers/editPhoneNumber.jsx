@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { AddIcon, CencalIcon } from '../../assets/images';
 import CustomersService from '../../services/customers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { editCustomersFail } from '../../slice/customers';
+import ErrorAlert from '../ui/errorAlert';
 
 const EditPhoneNumber = ({editPhoneNumber, setEditPhoneNumber, refreshCustomers}) => {
   const { editCustomerData } = useSelector(state => state.customers);
   const [id, setId] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState(editCustomerData?.phoneNumber);
   let [extraPhoneNumber, setExtraPhoneNumber] = useState(editCustomerData?.extraPhoneNumber);
+  const { error } = useSelector(state => state.customers);
+  const dispatch = useDispatch()
 
   
   useEffect(() => {
@@ -22,12 +26,10 @@ const EditPhoneNumber = ({editPhoneNumber, setEditPhoneNumber, refreshCustomers}
       const res = await CustomersService.updatePhoneNumber(id, newPhoneNumber, extraPhoneNumber);
       if (refreshCustomers) refreshCustomers();
       setEditPhoneNumber(false);
-    } catch (err) {
-      console.log(err);
+    } catch (err) {		
+		dispatch(editCustomersFail(err.response.data));
     }
   }
-
-  console.log(newPhoneNumber, extraPhoneNumber);
 
 	return (
 		<div
@@ -114,6 +116,7 @@ const EditPhoneNumber = ({editPhoneNumber, setEditPhoneNumber, refreshCustomers}
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'customers'}/>}
 		</div>
   );
 }

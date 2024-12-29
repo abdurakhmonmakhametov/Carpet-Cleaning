@@ -1,12 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddIcon, CencalIcon } from "../../assets/images"
 import { useEffect, useState } from "react";
 import UsersService from "../../services/users";
+import { ErrorAlert } from "../";
+import { editUserFail } from "../../slice/allUsers";
 
 const EditRole = ({ editRole, setEditRole, refreshUsers }) => {
   const { editUserData } = useSelector(state => state.users)
   const [id, setId] = useState(editUserData?.id);
   const [newRole, setNewRole] = useState(editUserData?.role?.role);
+  const { error } = useSelector(state => state.users);
+  const dispatch = useDispatch()
 
   useEffect(() => {
       setNewRole(editUserData?.role?.role);
@@ -19,7 +23,7 @@ const EditRole = ({ editRole, setEditRole, refreshUsers }) => {
       refreshUsers();
       setEditRole(false);
     } catch (err) {
-      console.log(err);
+		dispatch(editUserFail(err.response.data));
     }
   }
 
@@ -91,6 +95,7 @@ const EditRole = ({ editRole, setEditRole, refreshUsers }) => {
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'users'}/>}
 		</div>
   );
 }

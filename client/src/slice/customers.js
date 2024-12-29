@@ -44,6 +44,9 @@ export const customersSlice = createSlice({
         createCustomerFail: (state, actions) => {
             state.isLoading = false;
             state.error = actions.payload;
+        },
+        editCustomersFail: (state, actions) => {
+            state.error = actions.payload;
         }
     },
 })
@@ -58,5 +61,6 @@ export const {
     createCustomerStart,
     createCustomerSuccess,
     createCustomerFail,
+    editCustomersFail
 } = customersSlice.actions;
 export default customersSlice.reducer

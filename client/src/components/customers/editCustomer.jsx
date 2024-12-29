@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { BlockUserIcon, CallIcon, LanguageIcon, LocationIcon, NotesIcon, ProfileCircleIcon, RightCloseIcon, TypeIcon } from "../../assets/images";
 import { useEffect, useState } from "react";
-import { EditAddressCustomer, EditFullNameCustomer, EditLanguageCustomer, EditNotesCustomer, EditPhoneNumberCustomer, EditTypeCustomer } from "..";
+import { DeleteCustomers, EditAddressCustomer, EditFullNameCustomer, EditLanguageCustomer, EditNotesCustomer, EditPhoneNumberCustomer, EditTypeCustomer, ErrorAlert } from "..";
 import CustomersService from "../../services/customers";
-import { getCustomerSuccess } from "../../slice/customers";
+import { editCustomersFail, getCustomerSuccess } from "../../slice/customers";
 
-const EditCustomer = ({ editCustomerDataOpen, setEditCustomerDataOpen, refreshCustomers }) => {
+const EditCustomer = ({ editCustomerDataOpen, setEditCustomerDataOpen, refreshCustomers, customerId }) => {
     const { editCustomerData } = useSelector(state => state.customers)
 	const [editFullName, setEditFullName] = useState(false);
 	const [editPhoneNumber, setEditPhoneNumber] = useState(false);	
@@ -13,16 +13,18 @@ const EditCustomer = ({ editCustomerDataOpen, setEditCustomerDataOpen, refreshCu
 	const [editLanguage, setEditLanguage] = useState(false);
 	const [editAddress, setEditAddress] = useState(false);
 	const [editNotes, setEditNotes] = useState(false);
+	const [deleteCustomerEditor, setDeleteCustomerEditor] = useState(false);
 	const dispatch = useDispatch();
+	const { error } = useSelector(state => state.customers)
 
-	const editCustomerHandler = async () => {
+	const editCustomerHandler = async() => {
 		try {
 			if (editCustomerDataOpen) {
-				const res = await CustomersService.getById(editCustomerData.id);
-				dispatch(getCustomerSuccess(res.data));
+				const res = await CustomersService.getById(editCustomerData?.id || customerId);
+				dispatch(getCustomerSuccess(res?.data));
 			}
 		} catch (err) {
-			console.log(err);
+			dispatch(editCustomersFail(err?.response?.data));
 		}
 	};
 
@@ -34,7 +36,8 @@ const EditCustomer = ({ editCustomerDataOpen, setEditCustomerDataOpen, refreshCu
 		editType,
 		editLanguage,
 		editAddress,
-		editNotes
+		editNotes,
+		deleteCustomerEditor
 	]);
 
 	return (
@@ -101,11 +104,12 @@ const EditCustomer = ({ editCustomerDataOpen, setEditCustomerDataOpen, refreshCu
 						</div>
 						<p className='opacity-40'>{editCustomerData?.notes}</p>
 					</button>
-					<button className='flex flex-row items-center gap-4 font-normal text-red-500 dark:text-red-700 font-gilroy'>
+					<button onClick={() => setDeleteCustomerEditor(true)} className='flex flex-row items-center gap-4 font-normal text-red-500 dark:text-red-700 font-gilroy'>
 						<BlockUserIcon />
 						<p>Mijozni ochirish</p>
 					</button>
 				</div>
+				
 			</div>
 			<EditFullNameCustomer
 				editFullName={editFullName}
@@ -137,6 +141,13 @@ const EditCustomer = ({ editCustomerDataOpen, setEditCustomerDataOpen, refreshCu
 				setEditNotes={setEditNotes}
 				refreshCustomers={refreshCustomers}
 			/>
+			<DeleteCustomers 
+				deleteCustomerEditor={deleteCustomerEditor}
+				setDeleteCustomerEditor={setDeleteCustomerEditor}
+				refreshCustomers={refreshCustomers}
+				setEditCustomerDataOpen={setEditCustomerDataOpen}
+			/>
+			{error && <ErrorAlert errorType={'customers'}/>}
 		</div>
 	);
 };

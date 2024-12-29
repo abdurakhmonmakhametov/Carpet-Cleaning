@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createCustomerFail, createCustomerStart, createCustomerSuccess } from '../../slice/customers';
 import CustomersService from '../../services/customers';
 import ErrorAlert from '../ui/errorAlert';
-import EditCustomer from './editCustomer';
 
-const AddNewCustomer = ({ isExists, setIsExists, customerPhoneNumber, setEditCustomerDataOpen, setAddCustomerEditor }) => {
+const AddNewCustomer = ({ isExists, setIsExists, customerPhoneNumber, setEditCustomerDataOpen, setAddCustomerEditor, refreshCustomers }) => {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [phoneNumber, setPhoneNumber] = useState(customerPhoneNumber);
@@ -36,6 +35,7 @@ const AddNewCustomer = ({ isExists, setIsExists, customerPhoneNumber, setEditCus
             setIsExists(true);
             setEditCustomerDataOpen(true);
 			setAddCustomerEditor(false);
+			refreshCustomers();
         } catch (err) {
             dispatch(createCustomerFail(err.response.data));
         }

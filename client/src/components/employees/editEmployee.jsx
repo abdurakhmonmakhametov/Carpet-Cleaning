@@ -9,6 +9,7 @@ import {
 	RoleIcon,
 } from '../../assets/images';
 import {
+	DeleteEmployee,
 	EditFullName,
 	EditLogin,
 	EditPassword,
@@ -30,6 +31,7 @@ const EditEmployee = ({
 	const [editPassword, setEditPassword] = useState(false);
 	const [editPhoneNumber, setEditPhoneNumber] = useState(false);
 	const [editRole, setEditRole] = useState(false);
+	const [deleteEmployerEditor, setDeleteEmployerEditor] = useState(false)
 
 	const dispatch = useDispatch();
 
@@ -55,6 +57,7 @@ const EditEmployee = ({
 		editPhoneNumber,
 		editRole,
 		editLogin,
+		deleteEmployerEditor,
 	]);
 
 	return (
@@ -128,7 +131,7 @@ const EditEmployee = ({
 						</div>
 						<p className='opacity-40'>********</p>
 					</button>
-					<button className='flex flex-row items-center gap-4 font-normal text-red-500 dark:text-red-700 font-gilroy'>
+					<button onClick={() => setDeleteEmployerEditor(true)} className='flex flex-row items-center gap-4 font-normal text-red-500 dark:text-red-700 font-gilroy'>
 						<BlockUserIcon />
 						<p>Hodimni ochirish</p>
 					</button>
@@ -158,6 +161,12 @@ const EditEmployee = ({
 				editPhoneNumber={editPhoneNumber}
 				setEditPhoneNumber={setEditPhoneNumber}
 				refreshUsers={refreshUsers}
+			/>
+			<DeleteEmployee
+				deleteEmployerEditor={deleteEmployerEditor}
+				setDeleteEmployerEditor={setDeleteEmployerEditor}
+				refreshUsers={refreshUsers}
+				setEditEmployeeEditor={setEditEmployeeEditor}
 			/>
 		</div>
 	);

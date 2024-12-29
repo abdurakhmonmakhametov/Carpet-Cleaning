@@ -1,13 +1,16 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddIcon, CencalIcon } from '../../assets/images';
 import { useEffect, useState } from 'react';
 import UsersService from '../../services/users';
-
+import { ErrorAlert } from '../';
+import { editUserFail } from '../../slice/allUsers';
 const EditPassword = ({ editPassword, setEditPassword, refreshUsers = null, isOpen = false }) => {
   const { editUserData } = useSelector(state => state.users)
   const [id, setId] = useState(editUserData?.id);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const { error } = useSelector(state => state.users);
+  const dispatch = useDispatch();
 
   useEffect(() => {
       setId(editUserData?.id);
@@ -19,7 +22,7 @@ const EditPassword = ({ editPassword, setEditPassword, refreshUsers = null, isOp
       if (refreshUsers) refreshUsers();
       setEditPassword(false);
     } catch (err) {
-		console.log(err);
+		dispatch(editUserFail(err.response.data));
     }
   }
 
@@ -31,7 +34,7 @@ const EditPassword = ({ editPassword, setEditPassword, refreshUsers = null, isOp
 				editPassword ? 'fixed' : 'hidden'
 			} inset-0 z-[110] bg-black bg-opacity-50 flex items-center justify-center`}
 		>
-			<div className={`relative ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[400px]' : ''} transform w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px]`}>
+			<div className={`relative ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[400px]' : ''} transform w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px] text-light-texxColor dark:text-dark-textColor`}>
 				<div className='flex items-center justify-between'>
 					<h3 className='font-normal font-gilroy'>
 						Parolni ozgartirish
@@ -108,6 +111,7 @@ const EditPassword = ({ editPassword, setEditPassword, refreshUsers = null, isOp
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'users'}/>}
 		</div>
 	);
 };

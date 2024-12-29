@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import UsersService from "../../services/users";
 import { AddIcon, CencalIcon } from "../../assets/images";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ErrorAlert from "../ui/errorAlert";
+import { editUserFail } from "../../slice/allUsers";
 
 const EditFullName = ({editFullName, setEditFullName, refreshUsers = null, isOpen = false}) => {
 	const { editUserData } = useSelector(state => state.users);
 	const [newName, setNewName] = useState(editUserData?.name);
     const [newSurname, setNewSurname] = useState(editUserData?.surname);
 	const [id, setId] = useState(editUserData?.id);
+	const { error } = useSelector(state => state.users);
+	const dispatch = useDispatch()
 	
     const updateFullName = async () => {
         try {
@@ -15,7 +19,7 @@ const EditFullName = ({editFullName, setEditFullName, refreshUsers = null, isOpe
             if (refreshUsers) refreshUsers();
             setEditFullName(false);
         } catch (err) {
-            console.log(err);
+            dispatch(editUserFail(err.response.data));
         }
     }
 
@@ -31,7 +35,7 @@ const EditFullName = ({editFullName, setEditFullName, refreshUsers = null, isOpe
 				editFullName ? 'fixed' : 'hidden'
 			} inset-0 z-[110] bg-black bg-opacity-50 flex items-center justify-center`}
 		>
-			<div className={`relative transform ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[400px]' : ''} w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px]`}>
+			<div className={`relative transform ${!isOpen ? 'md:rounded sm:max-w-[47%] md:max-w-[42%] lg:max-w-[27%] xl:max-w-[23%] sm:h-[400px]' : ''} w-[100%] h-[100%] font-semibold bg-light-background dark:bg-dark-background z-50 shadow-lg p-[20px] text-light-texxColor dark:text-dark-textColor`}>
 				<div className='flex items-center justify-between'>
 					<h3 className='font-normal font-gilroy'>
 						Ismni ozgartirish
@@ -108,6 +112,7 @@ const EditFullName = ({editFullName, setEditFullName, refreshUsers = null, isOpe
 					</div>
 				</div>
 			</div>
+			{error && <ErrorAlert errorType={'users'}/>}
 		</div>
   );
 }
